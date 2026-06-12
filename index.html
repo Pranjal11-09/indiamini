@@ -1175,10 +1175,18 @@
             });
         }
 
-        /* ================= RESUME DOWNLOAD (placeholder hook) ================= */
+        // /* ================= RESUME DOWNLOAD (placeholder hook) ================= */
+        // document.getElementById('dlResume').addEventListener('click', e => {
+        //     e.preventDefault();
+        //     toast('Attach your PDF resume to the email before sending ✦');
+        // });
+        /* ================= RESUME DOWNLOAD ================= */
         document.getElementById('dlResume').addEventListener('click', e => {
             e.preventDefault();
-            toast('Attach your PDF resume to the email before sending ✦');
+            window.open(
+                'https://drive.google.com/file/d/1fZguG17flZYVyHfGX7KgY33eBW2wLNhh/view?usp=sharing',
+                '_blank'
+            );
         });
 
         /* ================= INIT ================= */
