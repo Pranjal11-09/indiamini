@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solve Pranjal — India Mini Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #F2E8D5;
+            --paper-deep: #E9DcC0;
+            --ochre: #E8A33D;
+            --rust: #C9522C;
+            --indigo: #2D2A4A;
+            --indigo-soft: #454168;
+            --teal: #3A7D6E;
+            --ink: #241F1A;
+            --cell: #FBF6EA;
+            --block: #2D2A4A;
+            --shadow: #1c1830;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--indigo);
+            color: var(--ink);
+            -webkit-font-smoothing: none;
+            image-rendering: pixelated;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 18px 12px 60px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* paper grain + halftone backdrop */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(var(--indigo-soft) 1px, transparent 1px) 0 0/7px 7px,
+                radial-gradient(var(--indigo-soft) 1px, transparent 1px) 3px 3px/7px 7px;
+            opacity: .35;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 760px
+        }
+
+        .pix {
+            font-family: 'Press Start 2P', monospace;
+            line-height: 1.5;
+            letter-spacing: .5px
+        }
+
+        /* ---------- screens ---------- */
+        .screen {
+            display: none;
+            animation: fade .35s ease
+        }
+
+        .screen.on {
+            display: block
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        /* ---------- title card ---------- */
+        .card {
+            background: var(--paper);
+            border: 4px solid var(--indigo);
+            box-shadow: 8px 8px 0 var(--shadow);
+            padding: 26px 22px;
+        }
+
+        .stars {
+            color: var(--ochre);
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 18px
+        }
+
+        .title {
+            text-align: center;
+            color: var(--indigo);
+            font-size: 30px;
+            line-height: 1.35;
+            text-shadow: 3px 3px 0 var(--ochre);
+        }
+
+        @media(max-width:520px) {
+            .title {
+                font-size: 20px
+            }
+        }
+
+        .devanagari {
+            text-align: center;
+            margin: 16px 0 4px;
+            color: var(--rust);
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .subtle {
+            text-align: center;
+            color: var(--indigo-soft);
+            font-size: 13px;
+            margin-top: 4px
+        }
+
+        .scene {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 24px;
+            margin: 24px 0 10px;
+            min-height: 96px;
+        }
+
+        .btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            background: var(--ochre);
+            color: var(--indigo);
+            border: 3px solid var(--indigo);
+            padding: 14px 20px;
+            box-shadow: 4px 4px 0 var(--shadow);
+            transition: transform .05s, box-shadow .05s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 var(--shadow)
+        }
+
+        .btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0 0 0 var(--shadow)
+        }
+
+        .btn.rust {
+            background: var(--rust);
+            color: var(--paper)
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--paper);
+            border-color: var(--paper)
+        }
+
+        .center {
+            text-align: center
+        }
+
+        .mt {
+            margin-top: 22px
+        }
+
+        .meta {
+            color: var(--paper);
+            text-align: center;
+            font-size: 12px;
+            margin: 16px 0 22px;
+            line-height: 1.7
+        }
+
+        .meta b {
+            color: var(--ochre)
+        }
+
+        /* ---------- game layout ---------- */
+        .gamebar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--paper);
+            font-size: 11px;
+            margin-bottom: 14px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .gamebar .pix {
+            font-size: 10px
+        }
+
+        .chip {
+            background: var(--paper);
+            color: var(--indigo);
+            border: 2px solid var(--ochre);
+            padding: 6px 9px;
+            font-size: 11px;
+        }
+
+        .iconbtn {
+            background: var(--indigo-soft);
+            color: var(--paper);
+            border: 2px solid var(--paper);
+            padding: 6px 9px;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .iconbtn:hover {
+            background: var(--rust)
+        }
+
+        .gamegrid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .board-wrap {
+            background: var(--paper);
+            border: 4px solid var(--indigo);
+            box-shadow: 8px 8px 0 var(--shadow);
+            padding: 14px
+        }
+
+        table.board {
+            border-collapse: collapse
+        }
+
+        table.board td {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--indigo-soft);
+            position: relative;
+            padding: 0;
+            text-align: center;
+            vertical-align: middle;
+            background: var(--cell);
+        }
+
+        table.board td.block {
+            background: var(--block);
+            border-color: var(--block)
+        }
+
+        table.board td .num {
+            position: absolute;
+            top: 1px;
+            left: 2px;
+            font-size: 8px;
+            color: var(--indigo-soft);
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        table.board td input {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: transparent;
+            text-align: center;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 14px;
+            color: var(--indigo);
+            text-transform: uppercase;
+            caret-color: var(--rust);
+        }
+
+        table.board td input:focus {
+            outline: 0;
+            background: var(--ochre)
+        }
+
+        table.board td.hl {
+            background: #F6D9A8
+        }
+
+        table.board td.correct input {
+            color: var(--teal)
+        }
+
+        table.board td.wrong {
+            background: #EBC0B3
+        }
+
+        /* clues */
+        .clues {
+            flex: 1;
+            min-width: 240px;
+            color: var(--paper)
+        }
+
+        .clues h3 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            color: var(--ochre);
+            margin: 6px 0 10px;
+            letter-spacing: 1px
+        }
+
+        .clue {
+            padding: 7px 9px;
+            font-size: 13px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            line-height: 1.45;
+        }
+
+        .clue:hover {
+            background: var(--indigo-soft)
+        }
+
+        .clue.active {
+            background: var(--indigo-soft);
+            border-left-color: var(--ochre)
+        }
+
+        .clue b {
+            color: var(--ochre);
+            margin-right: 6px
+        }
+
+        .helper {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap
+        }
+
+        /* ---------- win screen ---------- */
+        .win .card {
+            padding: 30px 26px
+        }
+
+        .win h2 {
+            font-family: 'Press Start 2P', monospace;
+            color: var(--rust);
+            font-size: 18px;
+            text-align: center;
+            line-height: 1.5;
+            text-shadow: 2px 2px 0 var(--ochre)
+        }
+
+        .soundbite {
+            border: 3px dashed var(--rust);
+            padding: 16px;
+            margin: 22px 0;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--indigo);
+            background: var(--paper-deep);
+        }
+
+        .section-h {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            color: var(--rust);
+            margin: 26px 0 12px;
+            letter-spacing: 1px;
+            border-bottom: 3px solid var(--ochre);
+            padding-bottom: 8px
+        }
+
+        .idea {
+            margin-bottom: 16px;
+            padding-left: 14px;
+            border-left: 4px solid var(--ochre)
+        }
+
+        .idea .nm {
+            font-weight: 700;
+            color: var(--indigo);
+            font-size: 14px
+        }
+
+        .idea .pr {
+            color: var(--rust);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin: 3px 0
+        }
+
+        .idea .tx {
+            font-size: 13px;
+            line-height: 1.55
+        }
+
+        .bio {
+            font-size: 13px;
+            line-height: 1.7
+        }
+
+        .bio .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 18px;
+            margin: 10px 0
+        }
+
+        .tag {
+            background: var(--indigo);
+            color: var(--paper);
+            font-size: 11px;
+            padding: 4px 9px;
+            display: inline-block
+        }
+
+        .kv {
+            display: flex;
+            gap: 8px;
+            margin: 5px 0;
+            font-size: 13px
+        }
+
+        .kv b {
+            color: var(--rust);
+            min-width: 88px;
+            display: inline-block
+        }
+
+        .links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px
+        }
+
+        .foot {
+            color: var(--indigo-soft);
+            text-align: center;
+            font-size: 11px;
+            margin-top: 26px;
+            line-height: 1.7
+        }
+
+        a {
+            color: var(--rust);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--rust)
+        }
+
+        /* skip + game-bar additions */
+        .skipline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background: var(--indigo-soft);
+            border: 2px solid var(--ochre);
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            color: var(--paper);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .skipline .skipbtn {
+            font-size: 9px;
+            padding: 10px 12px;
+            white-space: nowrap
+        }
+
+        @media(max-width:520px) {
+            .skipline .skipbtn {
+                width: 100%
+            }
+        }
+
+        /* win: hero trophy */
+        .trophy-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 8px
+        }
+
+        .win h2 {
+            font-family: 'Press Start 2P', monospace;
+            color: var(--rust);
+            font-size: 18px;
+            text-align: center;
+            line-height: 1.5;
+            text-shadow: 2px 2px 0 var(--ochre);
+            margin-top: 4px
+        }
+
+        .solvedline {
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--indigo-soft)
+        }
+
+        .solvedline b {
+            color: var(--rust)
+        }
+
+        /* win: section header with icon */
+        .section-h {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .sec-ico {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            flex: 0 0 18px
+        }
+
+        /* win: ideas now flex rows with icon */
+        .idea {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 22px;
+            padding: 14px;
+            border-left: 4px solid var(--ochre);
+            background: var(--paper-deep);
+        }
+
+        .idea-ico {
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            margin-top: 2px
+        }
+
+        .idea-body {
+            flex: 1
+        }
+
+        .idea .nm {
+            color: var(--indigo);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            line-height: 1.4
+        }
+
+        .idea .sub {
+            color: var(--rust);
+            font-weight: 700;
+            font-size: 13px;
+            margin: 6px 0 2px
+        }
+
+        .idea .pr {
+            color: var(--indigo-soft);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 7px
+        }
+
+        .idea .tx {
+            font-size: 13px;
+            line-height: 1.6
+        }
+
+        .idea .test {
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 8px;
+            color: var(--teal)
+        }
+
+        .idea .test b {
+            color: var(--teal)
+        }
+
+        /* win: answer legend */
+        .legend {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            margin-bottom: 8px
+        }
+
+        .leg {
+            display: flex;
+            gap: 12px;
+            padding: 7px 0;
+            border-bottom: 1px dotted var(--indigo-soft);
+            font-size: 13px;
+            align-items: baseline
+        }
+
+        .leg-w {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            color: var(--rust);
+            min-width: 118px;
+            flex: 0 0 118px
+        }
+
+        @media(max-width:520px) {
+            .leg-w {
+                min-width: 96px;
+                flex-basis: 96px;
+                font-size: 9px
+            }
+        }
+
+        /* win: cta row */
+        .cta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 26px
+        }
+
+        .cta-row .btn {
+            font-size: 10px;
+            text-decoration: none;
+            border-bottom: 0
+        }
+
+        .cta-row .btn.ghost {
+            background: var(--paper);
+            color: var(--indigo);
+            border-color: var(--indigo)
+        }
+
+        .cta-row .btn.ghost:hover {
+            background: var(--ochre);
+            color: var(--indigo)
+        }
+
+        @media(max-width:520px) {
+            .cta-row .btn {
+                width: 100%;
+                text-align: center
+            }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--indigo);
+            color: var(--paper);
+            padding: 10px 16px;
+            font-size: 12px;
+            border: 2px solid var(--ochre);
+            z-index: 50;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .toast.show {
+            opacity: 1
+        }
+
+        /* pixel sprites (pure CSS box-shadow art) */
+        .sprite {
+            position: relative;
+            width: 48px;
+            height: 48px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <!-- ============ TITLE SCREEN ============ -->
+        <section id="screen-title" class="screen on">
+            <div class="card">
+                <div class="stars pix">★ ★ ★ ★ ★</div>
+                <h1 class="title pix">ARE YOU<br>READY TO<br>SOLVE?</h1>
+                <div class="devanagari">“मेरे इंटर्न्स आएँगे.”</div>
+                <div class="subtle">A mini crossword where every answer decodes your next Product &amp; Growth intern.
+                </div>
+
+                <div class="scene">
+                    <!-- avatar sprite -->
+                    <canvas id="avatar" width="48" height="48" class="sprite" aria-label="pixel avatar"></canvas>
+                    <!-- chai kulhad sprite -->
+                    <canvas id="chai" width="48" height="48" class="sprite" aria-label="chai kulhad"></canvas>
+                </div>
+
+                <div class="center mt">
+                    <span class="btn" onclick="go('game')">DEFINITELY ▶</span>
+                </div>
+            </div>
+            <div class="meta">
+                built for <b>Amuse Labs · India Mini</b><br>
+                product &amp; growth intern application — <b>Pranjal Gupta</b>
+            </div>
+        </section>
+
+        <!-- ============ GAME SCREEN ============ -->
+        <section id="screen-game" class="screen">
+            <div class="gamebar">
+                <span class="pix">SOLVE&nbsp;PRANJAL</span>
+                <span class="chip" id="timer">00:00</span>
+                <span class="chip" id="progress">0 / 8</span>
+                <span style="display:flex;gap:8px">
+                    <button class="iconbtn" id="soundBtn" onclick="toggleSound()">♪ ON</button>
+                    <button class="iconbtn" onclick="checkAll()">CHECK</button>
+                </span>
+            </div>
+            <div class="skipline">
+                <span>Recruiter in a hurry? First letters are filled in. Stuck on a clue, tap it &amp; hit reveal —
+                    or</span>
+                <button class="btn rust skipbtn" onclick="solveAll()">SKIP TO WHY YOU SHOULD HIRE ME ▶</button>
+            </div>
+
+            <div class="gamegrid">
+                <div class="board-wrap">
+                    <table class="board" id="board"></table>
+                </div>
+                <div class="clues">
+                    <h3>ACROSS</h3>
+                    <div id="acrossClues"></div>
+                    <h3 style="margin-top:18px">DOWN</h3>
+                    <div id="downClues"></div>
+                    <div class="helper">
+                        <button class="iconbtn" onclick="revealWord()">REVEAL THIS CLUE</button>
+                        <button class="iconbtn" onclick="revealLetter()">ONE LETTER</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ WIN SCREEN ============ -->
+        <section id="screen-win" class="screen win">
+            <div class="card">
+                <div class="trophy-wrap">
+                    <canvas id="trophy" width="56" height="56" class="sprite" aria-label="pixel trophy"></canvas>
+                </div>
+                <h2>PUZZLE SOLVED</h2>
+                <p class="center solvedline">
+                    Cracked in <b id="finalTime">00:00</b>. Now — the part that actually gets me hired.
+                </p>
+
+                <div class="soundbite">
+                    “Build the game, not the scoreboard.<br>
+                    Reward mastery, completion &amp; progress —<br>not points, check-ins, or badges.”
+                </div>
+
+                <div class="section-h pix"><span class="sec-ico" data-ico="bulb"></span>3 IDEAS TO RETAIN
+                    INDIA&nbsp;MINI SOLVERS</div>
+
+                <div class="idea">
+                    <span class="idea-ico" data-ico="dna"></span>
+                    <div class="idea-body">
+                        <div class="nm">1 — Kal Ka Clue</div>
+                        <div class="sub">The open loop</div>
+                        <div class="pr">Anticipation · curiosity over fear</div>
+                        <div class="tx">Every mini ends with one cell left <i>adhoora</i> — deliberately unfinished. Its
+                            clue points at <b>tomorrow's</b> theme. You leave with something unresolved, so you come
+                            back to close it.</div>
+                        <div class="test"><b>Test →</b> carried-over-clue cohort vs normal closed mini · measure D1
+                            return.</div>
+                    </div>
+                </div>
+
+                <div class="idea">
+                    <span class="idea-ico" data-ico="ring"></span>
+                    <div class="idea-body">
+                        <div class="nm">2 — The Adhoora Mini</div>
+                        <div class="sub">The weekly payoff</div>
+                        <div class="pr">Completion · a reward you build</div>
+                        <div class="tx">Each day's leftover cell is saved. Across a week, they assemble into a bonus
+                            mini — "Hafte Ka Raaz". Miss a day? That cell's just blank. No punishment, only payoff.
+                        </div>
+                        <div class="test"><b>Test →</b> weekly-assembly cohort vs daily-only · measure D7 retention.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="idea">
+                    <span class="idea-ico" data-ico="star"></span>
+                    <div class="idea-body">
+                        <div class="nm">3 — Collect → Unlock</div>
+                        <div class="sub">Earned identity</div>
+                        <div class="pr">Long-term progress · beyond streaks</div>
+                        <div class="tx">A slower-burn layer for the long haul: themed cards earned by solving that build
+                            toward a meta-puzzle. A visible, <b>earned</b> goal gives a reason to return that a streak
+                            can't — progress you own.</div>
+                        <div class="test"><b>Test →</b> collection cohort vs control · measure D7/D30 return lift.</div>
+                    </div>
+                </div>
+
+                <div class="section-h pix"><span class="sec-ico" data-ico="key"></span>ANSWER KEY — WHAT YOU JUST
+                    SPELLED</div>
+                <div class="legend">
+                    <div class="leg"><span class="leg-w">PRANJAL</span><span>that's me — your applicant</span></div>
+                    <div class="leg"><span class="leg-w">INDIAMINI</span><span>your product, the reason I applied</span>
+                    </div>
+                    <div class="leg"><span class="leg-w">DESIGN</span><span>my IIT-D minor — 9.0 CGPA</span></div>
+                    <div class="leg"><span class="leg-w">FIGMA</span><span>where I do UI/UX</span></div>
+                    <div class="leg"><span class="leg-w">PYTHON / SQL</span><span>how I work with data</span></div>
+                    <div class="leg"><span class="leg-w">FILM</span><span>I direct films at CineSoc, PFC</span></div>
+                    <div class="leg"><span class="leg-w">RICE</span><span>how I prioritize what to build</span></div>
+                </div>
+
+                <div class="section-h pix"><span class="sec-ico" data-ico="face"></span>THE SOLVER YOU JUST DECODED
+                </div>
+                <div class="bio">
+                    <div class="kv"><b>Who</b><span>Pranjal Gupta — B.Tech Textile + <i>Minor in Design (9.0)</i>, IIT
+                            Delhi</span></div>
+                    <div class="kv"><b>Does</b><span>Product · growth · UI/UX · films &amp; music. Director, CineSoc
+                            (PFC).</span></div>
+                    <div class="kv"><b>Proof</b><span>50k+ data points @ UNSW Marketing AI Lab · 25% sign-up lift @
+                            Findonic · 400% reach @ CineSoc · Top-10 global @ Experientia.</span></div>
+                    <div class="row">
+                        <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Figma</span>
+                        <span class="tag">HTML/CSS/JS</span><span class="tag">A/B Testing</span>
+                        <span class="tag">RICE</span><span class="tag">Kano</span><span class="tag">Gamification</span>
+                    </div>
+                    <div class="kv"><b>Why me</b><span>I build the game <i>and</i> the scoreboard — and I know when to
+                            throw the scoreboard out. Also: I actually like crosswords.</span></div>
+                </div>
+
+                <div class="cta-row">
+                    <a class="btn rust"
+                        href="mailto:sarthak@amuselabs.com?subject=India%20Mini%20—%20Pranjal%20Gupta&cc=jobs@amuselabs.com">✉
+                        EMAIL MY APPLICATION</a>
+                    <a class="btn ghost" href="#" id="dlResume">⬇ FULL RESUME</a>
+                    <span class="btn ghost" onclick="go('title')">↺ REPLAY</span>
+                </div>
+                <div class="foot">
+                    Coded from scratch — HTML · CSS · JS · Web Audio. No libraries, no templates.
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ================= DATA ================= */
+        const H = 11, W = 7;
+        const SOL = [
+            ["P", "R", "A", "N", "J", "A", "L"],
+            [null, "I", null, null, null, null, null],
+            [null, "C", null, null, null, "I", null],
+            ["D", "E", "S", "I", "G", "N", null],
+            [null, null, "Q", null, null, "D", null],
+            ["F", "I", "L", "M", null, "I", null],
+            [null, null, null, null, null, "A", null],
+            [null, null, "F", "I", "G", "M", "A"],
+            [null, null, null, null, null, "I", null],
+            ["P", "Y", "T", "H", "O", "N", null],
+            [null, null, null, null, null, "I", null]
+        ];
+        const NUMS = { "0,0": 1, "0,1": 2, "2,5": 3, "3,0": 4, "3,2": 5, "5,0": 6, "7,2": 7, "9,0": 8 };
+        const ACROSS = [
+            { n: 1, r: 0, c: 0, len: 7, ans: "PRANJAL", clue: "The intern you're about to decode (7)" },
+            { n: 4, r: 3, c: 0, len: 6, ans: "DESIGN", clue: "My IIT-D minor — the 9.0 one, not the textile bit (6)" },
+            { n: 6, r: 5, c: 0, len: 4, ans: "FILM", clue: "What I direct at CineSoc when not solving you (4)" },
+            { n: 7, r: 7, c: 2, len: 5, ans: "FIGMA", clue: "Where good UI/UX is born; my weapon of choice (5)" },
+            { n: 8, r: 9, c: 0, len: 6, ans: "PYTHON", clue: "Snake that files no GST, just runs your scripts (6)" }
+        ];
+        const DOWN = [
+            { n: 2, r: 0, c: 1, len: 4, ans: "RICE", clue: "Prioritization framework — also the grain everyone debates (4)" },
+            { n: 3, r: 2, c: 5, len: 9, ans: "INDIAMINI", clue: "The crossword you'd return to every morning (5,4)" },
+            { n: 5, r: 3, c: 2, len: 3, ans: "SQL", clue: "Three letters that talk to databases (3)" }
+        ];
+        const ALL = [...ACROSS.map(e => ({ ...e, dir: 'A' })), ...DOWN.map(e => ({ ...e, dir: 'D' }))];
+
+        /* ================= SCREEN NAV ================= */
+        function go(name) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+            document.getElementById('screen-' + name).classList.add('on');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (name === 'game') { startTimer(); }
+            if (name === 'title') { resetGame(); }
+        }
+
+        /* ================= BUILD BOARD ================= */
+        const board = document.getElementById('board');
+        const inputs = {};
+        function buildBoard() {
+            board.innerHTML = '';
+            for (let r = 0; r < H; r++) {
+                const tr = document.createElement('tr');
+                for (let c = 0; c < W; c++) {
+                    const td = document.createElement('td');
+                    if (SOL[r][c] === null) { td.className = 'block'; }
+                    else {
+                        const key = r + ',' + c;
+                        if (NUMS[key]) { const sp = document.createElement('span'); sp.className = 'num'; sp.textContent = NUMS[key]; td.appendChild(sp); }
+                        const inp = document.createElement('input');
+                        inp.maxLength = 1; inp.dataset.r = r; inp.dataset.c = c;
+                        inp.addEventListener('input', onInput);
+                        inp.addEventListener('keydown', onKey);
+                        inp.addEventListener('focus', () => highlightFor(r, c));
+                        td.appendChild(inp); inputs[key] = inp;
+                    }
+                    tr.appendChild(td);
+                }
+                board.appendChild(tr);
+            }
+        }
+        function cellTd(r, c) { return inputs[r + ',' + c] ? inputs[r + ',' + c].parentElement : null; }
+
+        let curDir = 'A';
+        function onInput(e) {
+            const t = e.target; t.value = t.value.toUpperCase().replace(/[^A-Z]/, '');
+            if (t.value) { blip(); advance(+t.dataset.r, +t.dataset.c); }
+            updateProgress();
+        }
+        function onKey(e) {
+            const r = +e.target.dataset.r, c = +e.target.dataset.c;
+            if (e.key === 'Backspace' && !e.target.value) { retreat(r, c); }
+            else if (e.key === 'ArrowRight') { focusCell(r, c + 1); curDir = 'A'; e.preventDefault(); }
+            else if (e.key === 'ArrowLeft') { focusCell(r, c - 1); curDir = 'A'; e.preventDefault(); }
+            else if (e.key === 'ArrowDown') { focusCell(r + 1, c); curDir = 'D'; e.preventDefault(); }
+            else if (e.key === 'ArrowUp') { focusCell(r - 1, c); curDir = 'D'; e.preventDefault(); }
+            else if (e.key === ' ') { curDir = curDir === 'A' ? 'D' : 'A'; highlightFor(r, c); e.preventDefault(); }
+        }
+        function focusCell(r, c) { const i = inputs[r + ',' + c]; if (i) { i.focus(); } }
+        function advance(r, c) { curDir === 'A' ? focusCell(r, c + 1) : focusCell(r + 1, c); }
+        function retreat(r, c) {
+            if (curDir === 'A') { const i = inputs[r + ',' + (c - 1)]; if (i) { i.focus(); i.value = ''; } }
+            else { const i = inputs[(r - 1) + ',' + c]; if (i) { i.focus(); i.value = ''; } }
+            updateProgress();
+        }
+        function highlightFor(r, c) {
+            document.querySelectorAll('td.hl').forEach(t => t.classList.remove('hl'));
+            const entry = ALL.find(e => {
+                if (e.dir !== curDir) return false;
+                if (curDir === 'A') return e.r === r && c >= e.c && c < e.c + e.len;
+                return e.c === c && r >= e.r && r < e.r + e.len;
+            }) || ALL.find(e => {
+                if (curDir === 'A') return e.r === r && c >= e.c && c < e.c + e.len;
+                return e.c === c && r >= e.r && r < e.r + e.len;
+            });
+            if (entry) {
+                curDir = entry.dir;
+                for (let i = 0; i < entry.len; i++) {
+                    const rr = entry.dir === 'D' ? entry.r + i : entry.r;
+                    const cc = entry.dir === 'A' ? entry.c + i : entry.c;
+                    const td = cellTd(rr, cc); if (td) td.classList.add('hl');
+                }
+                setActiveClue(entry);
+            }
+        }
+
+        /* ================= CLUES ================= */
+        function buildClues() {
+            const ac = document.getElementById('acrossClues'), dn = document.getElementById('downClues');
+            ac.innerHTML = ''; dn.innerHTML = '';
+            ACROSS.forEach(e => ac.appendChild(clueEl(e, 'A')));
+            DOWN.forEach(e => dn.appendChild(clueEl(e, 'D')));
+        }
+        function clueEl(e, dir) {
+            const d = document.createElement('div');
+            d.className = 'clue'; d.id = 'clue-' + dir + e.n;
+            d.innerHTML = '<b>' + e.n + '</b>' + e.clue;
+            d.onclick = () => { curDir = dir; focusCell(e.r, e.c); highlightFor(e.r, e.c); };
+            return d;
+        }
+        function setActiveClue(entry) {
+            activeEntry = entry;
+            document.querySelectorAll('.clue').forEach(c => c.classList.remove('active'));
+            const el = document.getElementById('clue-' + entry.dir + entry.n);
+            if (el) el.classList.add('active');
+        }
+
+        /* ================= CHECK / WIN ================= */
+        function updateProgress() {
+            let done = 0;
+            ALL.forEach(e => {
+                let ok = true;
+                for (let i = 0; i < e.len; i++) {
+                    const rr = e.dir === 'D' ? e.r + i : e.r, cc = e.dir === 'A' ? e.c + i : e.c;
+                    if ((inputs[rr + ',' + cc].value || '') !== SOL[rr][cc]) { ok = false; break; }
+                }
+                if (ok) done++;
+            });
+            document.getElementById('progress').textContent = done + ' / ' + ALL.length;
+            if (done === ALL.length) { winJingle(); stopTimer(); setTimeout(() => { document.getElementById('finalTime').textContent = fmt(seconds); go('win'); }, 450); }
+        }
+        function checkAll() {
+            let wrong = 0;
+            Object.values(inputs).forEach(i => {
+                const r = +i.dataset.r, c = +i.dataset.c, td = i.parentElement;
+                td.classList.remove('correct', 'wrong');
+                if (i.value) { if (i.value === SOL[r][c]) td.classList.add('correct'); else { td.classList.add('wrong'); wrong++; } }
+            });
+            toast(wrong ? ('Galat. Prem darshan hai, pradarshan nahi. (' + wrong + ' off)') : 'Sab sahi! Keep going.');
+        }
+        function revealLetter() {
+            const focused = document.activeElement;
+            let r, c;
+            if (focused && focused.dataset && focused.dataset.r) { r = +focused.dataset.r; c = +focused.dataset.c; }
+            else { const empty = Object.values(inputs).find(i => !i.value); if (!empty) return; r = +empty.dataset.r; c = +empty.dataset.c; }
+            inputs[r + ',' + c].value = SOL[r][c]; blip(); updateProgress();
+        }
+        let activeEntry = null;
+        function revealWord() {
+            const e = activeEntry;
+            if (!e) { toast('Tap a clue first, then reveal it.'); return; }
+            for (let i = 0; i < e.len; i++) {
+                const rr = e.dir === 'D' ? e.r + i : e.r, cc = e.dir === 'A' ? e.c + i : e.c;
+                inputs[rr + ',' + cc].value = SOL[rr][cc];
+            }
+            blip(); updateProgress();
+        }
+        function solveAll() {
+            Object.values(inputs).forEach(i => { i.value = SOL[+i.dataset.r][+i.dataset.c]; });
+            updateProgress();
+        }
+
+        /* ================= TIMER ================= */
+        let seconds = 0, timerId = null;
+        function startTimer() { if (timerId) return; timerId = setInterval(() => { seconds++; document.getElementById('timer').textContent = fmt(seconds); }, 1000); }
+        function stopTimer() { clearInterval(timerId); timerId = null; }
+        function fmt(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+        function prefillFirstLetters() {
+            ALL.forEach(e => { const i = inputs[e.r + ',' + e.c]; if (i) i.value = SOL[e.r][e.c]; });
+        }
+        function resetGame() {
+            stopTimer(); seconds = 0;
+            document.getElementById('timer').textContent = '00:00';
+            Object.values(inputs).forEach(i => { i.value = ''; i.parentElement.classList.remove('correct', 'wrong', 'hl'); });
+            prefillFirstLetters();
+            updateProgress();
+        }
+
+        /* ================= SOUND (Web Audio) ================= */
+        let soundOn = true, actx = null;
+        function ac() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); return actx; }
+        function tone(freq, dur, type = 'square', vol = 0.08, when = 0) {
+            if (!soundOn) return;
+            const c = ac(); const o = c.createOscillator(), g = c.createGain();
+            o.type = type; o.frequency.value = freq;
+            o.connect(g); g.connect(c.destination);
+            const t = c.currentTime + when;
+            g.gain.setValueAtTime(vol, t);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+            o.start(t); o.stop(t + dur);
+        }
+        function blip() { tone(420 + Math.random() * 60, 0.06, 'square', 0.05); }
+        function winJingle() {
+            const n = [523, 659, 784, 1047]; n.forEach((f, i) => tone(f, 0.18, 'square', 0.08, i * 0.12));
+            tone(1568, 0.4, 'triangle', 0.06, 0.5);
+        }
+        function toggleSound() { soundOn = !soundOn; document.getElementById('soundBtn').textContent = soundOn ? '♪ ON' : '♪ OFF'; if (soundOn) { ac(); blip(); } }
+
+        /* ================= TOAST ================= */
+        let toastId = null;
+        function toast(msg) {
+            const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+            clearTimeout(toastId); toastId = setTimeout(() => t.classList.remove('show'), 2600);
+        }
+
+        /* ================= PIXEL SPRITES ================= */
+        function px(ctx, x, y, col, s = 4) { ctx.fillStyle = col; ctx.fillRect(x * s, y * s, s, s); }
+        function drawAvatar() {
+            const ctx = document.getElementById('avatar').getContext('2d');
+            const sk = '#E8B888', hair = '#241F1A', sh = '#2D2A4A', rust = '#C9522C';
+            // 12x12 grid, scale 4
+            const map = [
+                "....hhhh....",
+                "...hhhhhh...",
+                "..hhhhhhhh..",
+                "..hskkskks..",  // placeholder
+            ];
+            // simpler explicit pixel art
+            const A = [
+                [4, 1, hair], [5, 1, hair], [6, 1, hair], [7, 1, hair],
+                [3, 2, hair], [4, 2, hair], [5, 2, hair], [6, 2, hair], [7, 2, hair], [8, 2, hair],
+                [3, 3, hair], [4, 3, sk], [5, 3, sk], [6, 3, sk], [7, 3, sk], [8, 3, hair],
+                [3, 4, sk], [4, 4, sk], [5, 4, sk], [6, 4, sk], [7, 4, sk], [8, 4, sk],
+                [4, 5, sk], [5, 5, hair], [6, 5, sk], [7, 5, hair], [8, 5, sk], // eyes-ish
+                [4, 6, sk], [5, 6, sk], [6, 6, sk], [7, 6, sk],
+                [5, 7, rust], [6, 7, rust], // mouth/scarf
+                [3, 8, sh], [4, 8, sh], [5, 8, sh], [6, 8, sh], [7, 8, sh], [8, 8, sh],
+                [3, 9, sh], [4, 9, sh], [5, 9, sh], [6, 9, sh], [7, 9, sh], [8, 9, sh],
+                [3, 10, sh], [4, 10, sh], [7, 10, sh], [8, 10, sh]
+            ];
+            A.forEach(([x, y, c]) => px(ctx, x, y, c, 4));
+        }
+        function drawChai() {
+            const ctx = document.getElementById('chai').getContext('2d');
+            const cup = '#C9522C', cupD = '#9c3d1f', steam = '#E9DcC0', cream = '#E8A33D';
+            const C = [
+                // steam
+                [5, 0, steam], [7, 1, steam], [5, 2, steam],
+                // rim
+                [3, 4, cupD], [4, 4, cupD], [5, 4, cupD], [6, 4, cupD], [7, 4, cupD], [8, 4, cupD],
+                [3, 5, cup], [4, 5, cream], [5, 5, cream], [6, 5, cream], [7, 5, cream], [8, 5, cup],
+                [3, 6, cup], [4, 6, cup], [5, 6, cup], [6, 6, cup], [7, 6, cup], [8, 6, cup],
+                [4, 7, cup], [5, 7, cup], [6, 7, cup], [7, 7, cup],
+                [4, 8, cupD], [5, 8, cupD], [6, 8, cupD], [7, 8, cupD],
+                [5, 9, cupD], [6, 9, cupD]
+            ];
+            C.forEach(([x, y, c]) => px(ctx, x, y, c, 4));
+        }
+
+        /* trophy hero (pixel) */
+        function drawTrophy() {
+            const ctx = document.getElementById('trophy').getContext('2d');
+            const g = '#E8A33D', gd = '#C9522C', base = '#2D2A4A', s = 4;
+            const T = [
+                // cup bowl
+                [4, 1, g], [5, 1, g], [6, 1, g], [7, 1, g], [8, 1, g], [9, 1, g],
+                [3, 2, g], [4, 2, g], [5, 2, g], [6, 2, g], [7, 2, g], [8, 2, g], [9, 2, g], [10, 2, g],
+                // handles
+                [2, 2, gd], [11, 2, gd], [2, 3, gd], [11, 3, gd],
+                [3, 3, g], [4, 3, g], [5, 3, g], [6, 3, g], [7, 3, g], [8, 3, g], [9, 3, g], [10, 3, g],
+                [4, 4, g], [5, 4, g], [6, 4, g], [7, 4, g], [8, 4, g], [9, 4, g],
+                [5, 5, gd], [6, 5, g], [7, 5, g], [8, 5, gd],
+                // stem
+                [6, 6, base], [7, 6, base], [6, 7, base], [7, 7, base],
+                // base
+                [4, 8, base], [5, 8, base], [6, 8, base], [7, 8, base], [8, 8, base], [9, 8, base],
+                [4, 9, base], [5, 9, base], [6, 9, base], [7, 9, base], [8, 9, base], [9, 9, base],
+                // star on cup
+                [6, 2, '#FBF6EA'], [7, 3, '#FBF6EA']
+            ];
+            T.forEach(([x, y, c]) => px(ctx, x, y, c, s));
+        }
+
+        /* tiny pixel icons drawn into spans via inline SVG (crisp, no blur) */
+        const ICONS = {
+            bulb: '<rect x="6" y="2" width="6" height="6" fill="#E8A33D"/><rect x="5" y="3" width="8" height="4" fill="#E8A33D"/><rect x="7" y="8" width="4" height="3" fill="#C9522C"/><rect x="7" y="12" width="4" height="2" fill="#2D2A4A"/>',
+            dna: '<rect x="4" y="3" width="3" height="3" fill="#3A7D6E"/><rect x="11" y="3" width="3" height="3" fill="#C9522C"/><rect x="7" y="7" width="4" height="3" fill="#E8A33D"/><rect x="4" y="11" width="3" height="3" fill="#C9522C"/><rect x="11" y="11" width="3" height="3" fill="#3A7D6E"/>',
+            ring: '<rect x="6" y="3" width="6" height="2" fill="#E8A33D"/><rect x="4" y="5" width="2" height="6" fill="#E8A33D"/><rect x="12" y="5" width="2" height="6" fill="#E8A33D"/><rect x="6" y="11" width="6" height="2" fill="#C9522C"/>',
+            star: '<rect x="8" y="2" width="2" height="14" fill="#E8A33D"/><rect x="2" y="8" width="14" height="2" fill="#E8A33D"/><rect x="5" y="5" width="2" height="2" fill="#C9522C"/><rect x="11" y="5" width="2" height="2" fill="#C9522C"/><rect x="5" y="11" width="2" height="2" fill="#C9522C"/><rect x="11" y="11" width="2" height="2" fill="#C9522C"/>',
+            key: '<rect x="3" y="6" width="5" height="5" fill="#E8A33D"/><rect x="8" y="8" width="7" height="2" fill="#E8A33D"/><rect x="12" y="10" width="2" height="2" fill="#C9522C"/>',
+            face: '<rect x="4" y="3" width="9" height="3" fill="#2D2A4A"/><rect x="3" y="6" width="11" height="5" fill="#E8B888"/><rect x="6" y="8" width="2" height="2" fill="#2D2A4A"/><rect x="10" y="8" width="2" height="2" fill="#2D2A4A"/><rect x="5" y="11" width="7" height="3" fill="#C9522C"/>'
+        };
+        function paintIcons() {
+            document.querySelectorAll('[data-ico]').forEach(el => {
+                const k = el.getAttribute('data-ico'); if (!ICONS[k]) return;
+                const sz = el.classList.contains('idea-ico') ? 34 : 18;
+                el.innerHTML = '<svg width="' + sz + '" height="' + sz + '" viewBox="0 0 18 18" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">' + ICONS[k] + '</svg>';
+            });
+        }
+
+        /* ================= RESUME DOWNLOAD (placeholder hook) ================= */
+        document.getElementById('dlResume').addEventListener('click', e => {
+            e.preventDefault();
+            toast('Attach your PDF resume to the email before sending ✦');
+        });
+
+        /* ================= INIT ================= */
+        buildBoard(); buildClues(); drawAvatar(); drawChai(); drawTrophy(); paintIcons(); prefillFirstLetters(); updateProgress();
+    </script>
+</body>
+
+</html>
